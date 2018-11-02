@@ -18,9 +18,9 @@
         <el-col :span="20">
           <div class="title">Custom Report</div>
           <div class="dragDrop-module">
-            <draggable v-model="newArr" element="div">
+            <draggable v-model="dragDropData" element="div">
               <el-tag
-              v-for="tag in newArr"
+              v-for="tag in dragDropData"
               :key="tag.label"
               :closable="true"
               @close="delTag(tag)"
@@ -28,6 +28,15 @@
               {{tag.label}}
               </el-tag>
             </draggable>
+            <!--<el-tag-->
+              <!--v-for="tag in dragDropData"-->
+              <!--:key="tag.label"-->
+              <!--:closable="true"-->
+              <!--@close="delTag(tag)"-->
+              <!--:type="tag.type">-->
+              <!--{{tag.label}}-->
+            <!--</el-tag>-->
+            <!--{{dragDropData}}-->
           </div>
         </el-col>
       </el-row>
@@ -139,68 +148,61 @@
             type: 'warning',
           },
         ],
-        newArr: [],
       }
     },
     methods: {
       toggleSelectDimension(params) {
         console.log(params,'点击的li')
         params.flag = !params.flag
-        if (params.flag) {
-          // 新增加的
-          this.newArr.push(params)
-        } else {
-          // 要删除的
-          let index
-          for (let i in this.newArr) {
-            if (this.newArr[i].label === params.label) {
-              index = i
-            }
-          }
-          this.newArr.splice(index, 1)
-        }
       },
       toggleSelectMeasure(params) {
         console.log(params,'点击的li')
         params.flag = !params.flag
-        if (params.flag) {
-          // 新增加的
-          this.newArr.push(params)
-        } else {
-          // 要删除的
-          let index
-          for (let i in this.newArr) {
-            if (this.newArr[i].label === params.label) {
-              index = i
-            }
-          }
-          this.newArr.splice(index, 1)
-        }
       },
       delTag(params) {
         console.log(params,'要移除的')
-        params.flag = false // 和菜单栏形成联系
-        // 控制拖拽组件的
-        let index
-        for (let i in this.newArr) {
-          if (this.newArr[i].label === params.label) {
-            index = i
-          }
-        }
-        this.newArr.splice(index, 1)
+        params.flag = false
       },
+    },
+    computed: {
+      // dragDropData: function () {
+      //   let newArr = []
+      //   for(let i in this.dimensionData) {
+      //     if (this.dimensionData[i].flag === true) {
+      //       newArr.push(this.dimensionData[i])
+      //     }
+      //   }
+      //   for(let i in this.measureData) {
+      //     if (this.measureData[i].flag === true) {
+      //       newArr.push(this.measureData[i])
+      //     }
+      //   }
+      //   return newArr
+      // },
+      dragDropData: {
+        get: function () {
+          let newArr = []
+          for(let i in this.dimensionData) {
+            if (this.dimensionData[i].flag === true) {
+              newArr.push(this.dimensionData[i])
+            }
+          }
+          for(let i in this.measureData) {
+            if (this.measureData[i].flag === true) {
+              newArr.push(this.measureData[i])
+            }
+          }
+          return newArr
+        },
+        set: function (newValue) {
+          console.log(newValue,'狂顶狂顶')
+          // this.dragDropData = newValue
+          // this.dimensionData = newValue
+        }
+      }
     },
     components: {
       draggable,
-    },
-    watch: {
-      'newArr': {
-        handler: function (nVal) {
-          // 监听到变化，重新set列就可以
-          console.log(nVal,'的')
-        },
-        deep: true
-      }
     }
   }
 </script>
@@ -213,12 +215,8 @@
     color: $borderColor;
     .dragDrop-module {
       border: 1px solid $borderColor;
-      min-height: 32px;
+      min-height: 40px;
       position: relative;
-      padding: 5px;
-      .el-tag {
-        margin-right: 5px;
-      }
     }
     .main {
       .scroll-box {
