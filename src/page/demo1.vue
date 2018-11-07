@@ -162,6 +162,10 @@
         newArr: [],
         SampleData: [],
         SampleTable: {
+          // postSort: function (rowNodes) {
+          //   console.log(rowNodes);
+          //   return false
+          // },
           rowDragManaged: true, // 行拖动，配合字段中rowDrag: true
           // toolPanelSuppressRowGroups: true
 
@@ -513,6 +517,12 @@
       this.initPage()
     },
     mounted() {
+
+      document.getElementsByClassName('ag-body-viewport')[0].onscroll = function () {
+        if(this.scrollHeight-this.scrollTop<this.clientHeight+100){
+          console.log("到达底部");
+        }
+      }
       // this.initPage()
       // let _this = this
       // Sample Data
