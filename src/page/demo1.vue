@@ -65,7 +65,7 @@
           <div class="title">Custom</div>
           <div class="content-table" v-loading="tableLoading">
             <!--height: calc(100vh - 240px);-->
-            <ag-grid-vue style="width: 100%; height: 70vh;" class="ag-theme-balham"
+            <ag-grid-vue style="width: 100%; height: 74vh;" class="ag-theme-balham"
                          :gridOptions="SampleTable"
                          :sideBar="false"
                          :enableColResize="true"
@@ -74,12 +74,12 @@
                          :groupHeaders="false"
                          :suppressRowClickSelection="true">
             </ag-grid-vue>
-            <el-pagination
-              @current-change="handleCurrentPageChange"
-              :current-page.sync="currentPage"
-              layout="prev, pager, next"
-              :total="1000">
-            </el-pagination>
+            <!--<el-pagination-->
+              <!--@current-change="handleCurrentPageChange"-->
+              <!--:current-page.sync="currentPage"-->
+              <!--layout="prev, pager, next"-->
+              <!--:total="100">-->
+            <!--</el-pagination>-->
           </div>
         </el-col>
       </el-row>
@@ -95,7 +95,8 @@
     data() {
       return {
         tableLoading: false,
-        baseApi: 'http://10.122.33.101:9095',
+        // baseApi: 'http://10.122.33.101:9095',
+        baseApi: 'https://demo-api.cbitest.lenovo.com',
         value1: 'cbi_overview_demo',
         value1Options: [
           {
@@ -209,16 +210,16 @@
           toolPanelSuppressRowGroups: true
         },
         currentPage: 1,
-        currentRows: 1000,
+        currentRows: 2000,
         fixedTopRow: {},
       }
     },
     methods: {
-      handleCurrentPageChange(val) {
-        console.log(val,'当前页')
-        this.currentPage = val
-        this.pageChangGetTableData()
-      },
+      // handleCurrentPageChange(val) {
+      //   console.log(val,'当前页')
+      //   this.currentPage = val
+      //   this.pageChangGetTableData()
+      // },
       toggleSelectDimension(params) {
         console.log(params, '点击的li')
         params.flag = !params.flag
@@ -609,6 +610,7 @@
           margin-top: 10px;
         }
       }
+
     }
     .title {
       font-weight: bold;
